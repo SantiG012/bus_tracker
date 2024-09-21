@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from .models import Bus, Location
-from .serializer import BusSerializer
+from .serializer import BusSerializer, LocationSerializer
 
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -48,6 +48,11 @@ class UpdateLocation(generics.RetrieveUpdateAPIView):
   serializer_class = BusSerializer
   lookup_field = 'id'
   
+  # def get(self, request, *args, **kwargs):
+  #   a_bus = self.get_object()
+  #   llocation = Location.objects.filter(bus=a_bus).all()
+  #   return Response(LocationSerializer(llocation, many=True).data, status=status.HTTP_200_OK)
+  
   def patch(self, request, *args, **kwargs):
     a_bus = self.get_object()
     a_location = request.data.get('location')
@@ -64,17 +69,16 @@ class UpdateLocation(generics.RetrieveUpdateAPIView):
       return Response({
         "message": "Both latutude and longitude are required."
       }, status=status.HTTP_400_BAD_REQUEST)
-      
-    # create or update bus location
-    location, created = Location.objects.get_or_create(bus=a_bus)
-    location.latitude = a_latitude
-    location.longitude = a_longitudine
-    location.save()
     
+    # patch bus
     a_bus.current_latitudine = a_latitude
     a_bus.current_longitudine = a_longitudine
     a_bus.save()
-  
+    
+    ## create or update bus location     
+    location = Location(bus=a_bus, latitude = a_latitude, longitude = a_longitudine)
+    location.save()
+
     return Response({
         "message": "sucess",
         "bus": a_bus.plate,
