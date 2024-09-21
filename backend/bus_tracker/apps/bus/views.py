@@ -43,7 +43,7 @@ class RetrieveUpdateDeleteBus(generics.RetrieveUpdateDestroyAPIView):
 
 # TAREA2: Crear la vista para actualizar la ubicacion del bus
 
-class UpdateLocation(generics.UpdateAPIView):
+class UpdateLocation(generics.RetrieveUpdateAPIView):
   queryset = Bus.objects.all()
   serializer_class = BusSerializer
   lookup_field = 'id'
