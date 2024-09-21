@@ -11,7 +11,7 @@ class Bus(models.Model):
 
 # TAREA 1: Crear el modelo Ubicacion Location(latitude, longitude, update_at)  
 class Location(models.Model):
-  bus = models.OneToOneField(Bus, on_delete=models.CASCADE, related_name='bus_location')
+  bus = models.ForeignKey(Bus, on_delete=models.CASCADE, related_name='bus_location', unique=False)
   latitude = models.DecimalField(max_digits=9, decimal_places=6)
   longitude = models.DecimalField(max_digits=9, decimal_places=6)
   updated_at = models.DateTimeField(auto_now=True)
