@@ -5,6 +5,7 @@ from .serializer import BusSerializer, LocationSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 class ListCreateBuses(generics.ListAPIView):
   queryset = Bus.objects.all()
