@@ -70,7 +70,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bus_tracker.wsgi.application'
+# WSGI_APPLICATION = 'bus_tracker.wsgi.application'
+ASGI_APPLICATION = 'bus_tracker.asgi.application'
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
 
