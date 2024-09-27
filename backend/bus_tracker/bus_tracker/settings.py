@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,8 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_extensions',
+    'channels',
     'apps.users',
-    'apps.bus'
+    'apps.bus',
+    'apps.route'
 ]
 
 MIDDLEWARE = [
@@ -74,6 +78,13 @@ TEMPLATES = [
 ASGI_APPLICATION = 'bus_tracker.asgi.application'
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
+
+# Configura el canal de capas, por ejemplo, usando el backend en memoria
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
