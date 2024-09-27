@@ -4,6 +4,7 @@ from .serializer import BusSerializer, LocationSerializer
 
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from channels.layers import get_channel_layer
 
 class ListCreateBuses(generics.ListAPIView):
   queryset = Bus.objects.all()
@@ -79,6 +80,18 @@ class UpdateLocation(generics.RetrieveUpdateAPIView):
     location = Location(bus=a_bus, latitude = a_latitude, longitude = a_longitudine)
     location.save()
 
+    # Enviar actualización a través del WebSocket
+    channel_layer = get_channel_layer()
+    print("#### channel_layer ",f'bus_{a_bus.id}')
+    async_to_sync(channel_layer.group_send)(
+        f'bus_{a_bus.id}',
+        {
+            'type': 'bus_location_update',
+            'latitude': a_latitude,
+            'longitude': a_longitudine
+        }
+    )
+    
     return Response({
         "message": "sucess",
         "bus": a_bus.plate,
