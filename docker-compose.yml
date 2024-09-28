@@ -12,7 +12,24 @@ services:
       - bst_network
     volumes:
       - ./database/volume:/var/lib/postgresql/data:rw
-  
+  btracker_backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    container_name: tbackend
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    networks:
+      - bst_network
+    depends_on:
+      - tdatabase
+    links:
+      - tdatabase:tdatabase
+
 networks:
   bst_network:
     driver: bridge
