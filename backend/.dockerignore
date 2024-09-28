@@ -1,0 +1,14 @@
+.git
+__pycache__
+dist
+logs
+venv
+docs
+*.css.map
+*.pyc
+*.pyo
+*.pmo
+*.db
+*.sqlite3
+*.sqlite
+.idea
