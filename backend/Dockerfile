@@ -3,7 +3,7 @@ FROM python:3.12.3
 # set language/unicode
 ENV LANG C.UTF-8
 # Set main directory 
-WORKDIR /usr/share
+WORKDIR /usr/share/bus_tracker_backend
 # Copy code and python scripts to image
 COPY . .
 # Set python environment variables
@@ -20,7 +20,7 @@ RUN pip install -r requirements/prod.txt
 # Open port
 EXPOSE 8000
 # Entrypoint
-CMD ["./entrypoint.sh"]
+CMD ["sh", "./entrypoint.sh"]
 
 
 
