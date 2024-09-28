@@ -26,9 +26,9 @@ services:
     networks:
       - bst_network
     depends_on:
-      - tdatabase
+      - btracker_database
     links:
-      - tdatabase:tdatabase
+      - btracker_database:btracker_database
 
 networks:
   bst_network:

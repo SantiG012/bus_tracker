@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Update pip 
-RUN pip install --pip
+RUN pip install pip
 # Install c & c++
 RUN apt-get update \
   && apt-get -y install libpq-dev gcc
