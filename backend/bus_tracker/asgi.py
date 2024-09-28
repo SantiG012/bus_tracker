@@ -5,7 +5,6 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from apps.bus import routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bus_tracker.settings')
-# print("#####  ProtocolTypeRouter", )
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
