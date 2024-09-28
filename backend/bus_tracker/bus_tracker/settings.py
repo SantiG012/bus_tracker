@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +42,9 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.bus',
     'apps.route',
-    'apps.station'
+    'apps.station',
+    'django_extensions',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -72,7 +75,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bus_tracker.wsgi.application'
+ASGI_APPLICATION = 'bus_tracker.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 
 # Database

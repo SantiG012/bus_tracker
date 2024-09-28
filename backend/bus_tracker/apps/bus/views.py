@@ -1,94 +1,105 @@
-from django.shortcuts import render
 from rest_framework import generics, status
-from .serializer import BusSerializer
 from .models import Bus, Location
+from .serializer import BusSerializer, LocationSerializer
+
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
-# Create your views here.
-
-class ListCrateBuses(generics.ListAPIView):
-    queryset = Bus.objects.all()
-    serializer_class = BusSerializer
-
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        serr = BusSerializer(data=data)
-
-        if not serr.is_valid():
-            return Response(serr.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        serr.save()
-        return Response(serr.data, status=status.HTTP_201_CREATED)
+class ListCreateBuses(generics.ListAPIView):
+  queryset = Bus.objects.all()
+  serializer_class = BusSerializer
+  
+  def post(self, request, *args, **kwargs):
+    a_bus= request.data
+    data = BusSerializer(data=a_bus)
+    if (data.is_valid()):
+      data.save()
+      return Response(data.validated_data, status=status.HTTP_200_OK)  
     
+    return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
+  
 class RetrieveUpdateDeleteBus(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Bus.objects.all()
-    serializer_class = BusSerializer
-    lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        # Check if the bus exists
-        bus = self.get_object()
-        serializer = BusSerializer(bus)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
-    def update(self, request, *args, **kwargs):
-        # Check if the bus exists
-        bus = self.get_object()
-        data = request.data
-        serializer = BusSerializer(bus, data=data, partial=True)
-
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def delete(self, request, *args, **kwargs):
-        bus = self.get_object()
-        
-        if not bus:
-            return Response({'message': 'Bus not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        bus.delete()
-        return Response({'message': 'Bus deleted successfully'}, status=status.HTTP_200_OK)
+  queryset = Bus.objects.all()
+  serializer_class = BusSerializer
+  lookup_field = 'id'
+  
+  def get_object(self):
+    """ get method """
+    return get_object_or_404(Bus, id=self.kwargs['id'])
+  
+  def update(self, request, *args, **kwargs):
+    a_bus = self.get_object()
+    data = BusSerializer(a_bus, data=request.data, partial=True) # permite actualizacion parcial
+    if data.is_valid():
+      data.save()
+      return Response(data.validated_data, status=status.HTTP_200_OK)
+    return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+  def delete(self, request, *args, **kwargs):
+    a_bus = self.get_object()
+    a_bus.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
     
 
-class UpdateLocation(generics.UpdateAPIView):
-    queryset = Bus.objects.all()
-    serializer_class = BusSerializer
-    lookup_field = 'id'
+# TAREA2: Crear la vista para actualizar la ubicacion del bus
 
-    def patch(self, request, *args, **kwargs):
-        a_bus = self.get_object()
-        a_location = request.data.get('location')
+class UpdateLocation(generics.RetrieveUpdateAPIView):
+  queryset = Bus.objects.all()
+  serializer_class = BusSerializer
+  lookup_field = 'id'
+  
+  # def get(self, request, *args, **kwargs):
+  #   a_bus = self.get_object()
+  #   llocation = Location.objects.filter(bus=a_bus).all()
+  #   return Response(LocationSerializer(llocation, many=True).data, status=status.HTTP_200_OK)
+  
+  def patch(self, request, *args, **kwargs):
+    a_bus = self.get_object()
+    a_location = request.data.get('location')
+    
+    if not(a_location):
+      return Response({
+        "message": "location is required."
+      }, status=status.HTTP_400_BAD_REQUEST)
+      
+    a_latitude = a_location.get('latitude')
+    a_longitudine = a_location.get('longitude')
+    
+    if a_latitude is None or a_longitudine is None:
+      return Response({
+        "message": "Both latutude and longitude are required."
+      }, status=status.HTTP_400_BAD_REQUEST)
+    
+    # patch bus
+    a_bus.current_latitudine = a_latitude
+    a_bus.current_longitudine = a_longitudine
+    a_bus.save()
+    
+    ## create or update bus location     
+    location = Location(bus=a_bus, latitude = a_latitude, longitude = a_longitudine)
+    location.save()
 
-        if not a_location:
-            return Response({'message': 'location is required'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        latitude = a_location.get('latitude')
-        longitude = a_location.get('longitude')
-
-        if not latitude or not longitude:
-            return Response({'message': 'latitude and longitude are required'}, status=status.HTTP_400_BAD_REQUEST)
-
-        a_bus.current_latitude = latitude
-        a_bus.current_longitude = longitude
-        a_bus.save()
-
-        # Create or update the location
-        location = Location(bus=a_bus, latitude=latitude, longitude=longitude)
-        location.save()
-
-        return Response(
-                {'message': 'Location updated successfully',
-                 'bus': a_bus.plate,
-                 'location': {
-                     'latitude': location.latitude,
-                     'longitude': location.longitude
-                    }
-                }, status=status.HTTP_200_OK
-            )
-
-
+    # Enviar actualización a través del WebSocket
+    channel_layer = get_channel_layer()
+    print("#### channel_layer ",f'bus_{a_bus.id}')
+    async_to_sync(channel_layer.group_send)(
+        f'bus_{a_bus.id}',
+        {
+            'type': 'bus_location_update',
+            'latitude': a_latitude,
+            'longitude': a_longitudine
+        }
+    )
+    
+    return Response({
+        "message": "sucess",
+        "bus": a_bus.plate,
+        'location':{
+          'latitude': location.latitude,
+          'longitude': location.longitude
+        }
+    }, status=status.HTTP_200_OK)
+    
+    
