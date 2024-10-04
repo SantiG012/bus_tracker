@@ -7,13 +7,15 @@ COPY . .
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-RUN pip install --pip
+RUN pip install pip
 
 RUN apt-get update \
     && apt-get install -y libpq-dev gcc
 
-RUN pip install -r requirements/common.txt
+RUN pip install -r requirements/prod.txt
+
+RUN chmod +x ./entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["./entrypoint.sh"]
+CMD ["sh","./entrypoint.sh"]
