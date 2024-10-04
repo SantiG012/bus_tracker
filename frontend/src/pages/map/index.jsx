@@ -20,7 +20,6 @@ const Map =()=>{
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       </MapContainer>
-      <h6>Workouts</h6>
       </center>
     </>
   )
