@@ -1,7 +1,7 @@
 import React from 'react';
 // import styles from './styles.css'
 
-const index = () => {
+const Home = () => {
   return(
     <div>
       Hi! I'm The page!
@@ -9,4 +9,4 @@ const index = () => {
   )
 }
 
-export default index;
+export default Home;
