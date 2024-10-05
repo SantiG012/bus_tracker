@@ -3,12 +3,14 @@ import { fetchBuses, createBus, updateBus, deleteBus } from "src/api/busApi";
 import BusCard from "src/components/buses/busCard";
 import BusForm from "src/components/buses/busForm";
 
+import styles from './busListPage.module.css'
+
 const BusListPage = () =>{
   const empty = {
     plate:"",
     status:"",
-    current_latitudine:"",
-    current_longitudine:""
+    current_latitudine:"0",
+    current_longitudine:"0"
   }
   const [buses, setBuses] = useState([]);
   const [selected, setBus] = useState(empty);
@@ -27,7 +29,7 @@ const BusListPage = () =>{
       await updateBus(selected.id, a_bus); 
       setBus(empty)
       const data = await fetchBuses();
-      setBuses(data);
+      setBuses(data.sort());
     }else{
       await createBus(a_bus); 
       setBus(empty)
@@ -48,11 +50,13 @@ const BusListPage = () =>{
   }
 
   return (
-    <div>
+    <div className={styles.busListContainer}>
       {/* Formulario */}
-      <BusForm busData={selected} onSubmit={createOrUpdate}/>
+      <div styles={{backgroduColor:"red"}} className={styles.busListChild}>
+        <BusForm busData={selected} onSubmit={createOrUpdate}/>
+      </div>
       {/* lista de buses */}
-      <div className="bus-list">
+      <div className={styles.busListChild} style={{overflow:"scroll", height:"70vh"}}>
         {buses.map((a_bus)=>(
           <BusCard 
             key={a_bus.id}
