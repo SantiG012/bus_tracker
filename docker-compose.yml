@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   btracker_database:
     image: postgres:13.0-alpine
@@ -12,6 +10,24 @@ services:
       - btracker_network
     volumes:
       - ./database/data:/var/lib/postgresql/data:rw
+  
+  btracker_backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    expose:
+      - 8000
+    container_name: btracker_backend
+    networks:
+      - btracker_network
+    depends_on:
+      - btracker_database
+    links:
+      - btracker_database:btracker_database
 
 networks:
   btracker_network:

@@ -1,0 +1,12 @@
+
+.busListContainer{
+display: flex;
+}
+
+.busListChild{
+flex: 1;
+}
+
+.busListChild:first-child{
+margin-right: 10px;
+}
