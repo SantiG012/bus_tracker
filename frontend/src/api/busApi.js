@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // TODO: create a constants file
-const API_URL = "http://localhost:8000/api/buses/";
+const API_URL = `${process.env.REACT_APP_API_URL}/api/buses/`;
 // get all buses
 export const fetchBuses = async () =>{
   try {
