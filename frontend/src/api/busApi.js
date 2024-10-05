@@ -16,7 +16,7 @@ export const fetchBuses = async () =>{
 // get a bus by id
 export const fetchBusesById = async (a_id) =>{
   try {
-    const response = await axios.get(`${API_URL}/${a_id}`);
+    const response = await axios.get(`${API_URL}${a_id}`);
     const {data, status} = response;
     return data
   }catch(error){
@@ -27,7 +27,7 @@ export const fetchBusesById = async (a_id) =>{
 
 export const updateBus = async (id, a_bus) =>{
   try {
-    const response = await axios.put(`${API_URL}/${id}/`, a_bus);
+    const response = await axios.put(`${API_URL}${id}/`, a_bus);
     const {data, status} = response;
     return data
   }catch(error){
@@ -49,7 +49,7 @@ export const createBus = async (a_bus) =>{
 
 export const deleteBus = async (id) =>{
   try {
-    const response = await axios.delete(`${API_URL}/${id}/`);
+    const response = await axios.delete(`${API_URL}${id}/`);
     const {data, status} = response;
     return data
   }catch(error){

@@ -1,12 +1,7 @@
 import React, { useState , useEffect } from "react";
 
 const BusForm = ({ busData, onSubmit }) =>{
-  const [bus, setBus] = useState({
-    plate:'',
-    status:'',
-    current_latitudine:"",
-    current_longitudine:""
-  });
+  const [bus, setBus] = useState(busData);
   useEffect(()=>{
     if(busData){
       setBus(busData);
