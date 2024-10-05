@@ -19,7 +19,7 @@ const BusListPage = () =>{
   useEffect(()=>{
   const getBuses = async () =>{
     const data = await fetchBuses();
-    setBuses(data);
+    setBuses(data.sort((a,b)=> a.id > b.id? 1 : -1 ));
   };
   getBuses();
   }, []);
@@ -29,12 +29,12 @@ const BusListPage = () =>{
       await updateBus(selected.id, a_bus); 
       setBus(empty)
       const data = await fetchBuses();
-      setBuses(data.sort());
+      setBuses(data.sort((a,b)=> a.id > b.id? 1 : -1 ));
     }else{
       await createBus(a_bus); 
       setBus(empty)
       const data = await fetchBuses();
-      setBuses(data);
+      setBuses(data.sort((a,b)=> a.id > b.id? 1 : -1 ));
     }
   }
 
@@ -46,17 +46,17 @@ const BusListPage = () =>{
   const handleDelete  = async (a_bus) =>{
     await deleteBus(a_bus.id); 
     const data = await fetchBuses();
-    setBuses(data);
+    setBuses(data.sort((a,b)=> a.id > b.id? 1 : -1 ));
   }
 
   return (
     <div className={styles.busListContainer}>
       {/* Formulario */}
-      <div styles={{backgroduColor:"red"}} className={styles.busListChild}>
+      <div className={styles.busListChild}>
         <BusForm busData={selected} onSubmit={createOrUpdate}/>
       </div>
       {/* lista de buses */}
-      <div className={styles.busListChild} style={{overflow:"scroll", height:"70vh"}}>
+      <div className={styles.busListChild} style={{overflow:"scroll", height:"80vh"}}>
         {buses.map((a_bus)=>(
           <BusCard 
             key={a_bus.id}

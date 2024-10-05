@@ -1,5 +1,4 @@
 import React, { useState , useEffect } from "react";
-
 import styles from "./busForm.module.css"
 
 const BusForm = ({ busData, onSubmit }) =>{
@@ -8,6 +7,7 @@ const BusForm = ({ busData, onSubmit }) =>{
     if(busData){
       setBus(busData);
     }
+    console.log("busData ", busData)
   }, [busData]);
 
   const handleChange = (e) =>{
@@ -49,8 +49,8 @@ const BusForm = ({ busData, onSubmit }) =>{
         </div>
         
         <div className={styles.busFormGroup}>
-          {busData && <button type="submit">Update</button>}
-          {!busData && <button type="submit">Save</button>}
+          {!busData.plate && <button  type="submit">Save</button>}
+          {busData.plate && <button type="submit">Update</button>}
         </div>
 
       </div>
