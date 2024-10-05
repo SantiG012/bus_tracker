@@ -4,13 +4,35 @@
   cursor: move;
   background-color: #fff;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 3pt;
   box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
   margin-bottom: 1rem;
   border: 3px dashed transparent;
-  width: 750px;
+  width: 650px;
+}
+
+.busCard h3 {
+  padding: 12px 20px;
+  background-color: #c08907; 
+  border: 3px solid black;
+  border-radius: 3pt;
+  width: 30%;
+  text-align: center;
 }
 
 .busCard:hover{
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.busCardButtons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.busCardButtons button{
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 3pt;
 }
