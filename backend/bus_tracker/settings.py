@@ -102,6 +102,8 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# PRODUCTION
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -111,10 +113,31 @@ DATABASES = {
         'HOST': os.getenv("POSTGRES_HOST"),
         'PORT': os.getenv("POSTGRES_PORT"),
     }
+} 
+"""
+
+# DEVELOPMENT
+DATABASES = {
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
+# PRODUCTION
+
+""" 
 DOMAIN = os.getenv("DOMAIN")
-SITE_NAME = os.getenv("SITE_NAME")
+SITE_NAME = os.getenv("SITE_NAME") 
+"""
+
+# DEVELOPMENT
+SITE_NAME="Bus Tracker"
+DOMAIN="bustracker.co"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
