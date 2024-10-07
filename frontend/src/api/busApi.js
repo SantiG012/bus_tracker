@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "http://localhost:8000/api/buses";
+const API_URL = `${process.env.REACT_APP_API_URL}/api/buses`;
 
 export const fetchBuses = async () => {
     try{

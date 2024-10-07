@@ -5,7 +5,7 @@ services:
       - ./database/.env
     ports:
       - "5432:5432"
-    container_name: btracker_database
+    container_name: btr_database
     networks:
       - btracker_network
     volumes:
@@ -21,13 +21,27 @@ services:
       - "8000:8000"
     expose:
       - 8000
-    container_name: btracker_backend
+    container_name: btr_backend
     networks:
       - btracker_network
     depends_on:
       - btracker_database
-    links:
-      - btracker_database:btracker_database
+
+  btracker_fronted:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "80:3000"
+    expose:
+      - 80
+    container_name: btr_frontend
+    networks:
+      - btracker_network
+    depends_on:
+      - btracker_backend
 
 networks:
   btracker_network:
