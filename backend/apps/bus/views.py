@@ -73,8 +73,8 @@ class UpdateLocation(generics.RetrieveUpdateAPIView):
       }, status=status.HTTP_400_BAD_REQUEST)
     
     # patch bus
-    a_bus.current_latitudine = a_latitude
-    a_bus.current_longitudine = a_longitudine
+    a_bus.current_latitude = a_latitude
+    a_bus.current_longitude = a_longitudine
     a_bus.save()
     
     ## create or update bus location     
@@ -83,7 +83,7 @@ class UpdateLocation(generics.RetrieveUpdateAPIView):
 
     # Enviar actualización a través del WebSocket
     channel_layer = get_channel_layer()
-    print("#### channel_layer ",f'bus_{a_bus.id}')
+
     async_to_sync(channel_layer.group_send)(
         f'bus_{a_bus.id}',
         {
