@@ -11,7 +11,9 @@ class Bus(models.Model):
     current_route = models.ForeignKey(Route, on_delete=models.DO_NOTHING, related_name='route_bus', null=True)
 
     def __str__(self)->str:
-        return f'Buses {self.plate} - status: {self.status}'
+        if self.current_route:
+            return f'{self.plate} on {self.current_route.name}'
+        return f'{self.plate}'
 
 class Location(models.Model):
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE, related_name='bus_location')

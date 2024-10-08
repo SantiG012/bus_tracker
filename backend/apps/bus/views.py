@@ -31,11 +31,11 @@ class RetrieveUpdateDeleteBus(generics.RetrieveUpdateDestroyAPIView):
   
   def update(self, request, *args, **kwargs):
     a_bus = self.get_object()
-    data = BusSerializer(a_bus, data=request.data, partial=True) # permite actualizacion parcial
-    if data.is_valid():
-      data.save()
-      return Response(data.validated_data, status=status.HTTP_200_OK)
-    return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = BusSerializer(a_bus, data=request.data, partial=True) # permite actualizacion parcial
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
   def delete(self, request, *args, **kwargs):
     a_bus = self.get_object()
