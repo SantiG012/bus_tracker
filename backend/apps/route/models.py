@@ -18,12 +18,17 @@ class Stop(models.Model):
     status = models.CharField(max_length=1, choices=[('A', 'Active'), ('I', 'Inactive')], default='A')
 
     def __str__(self)->str:
-        return f'Stop {self.name} of Route {self.route.name} at {self.station.name}'
+        return f'Stop {self.name}'
 
 class RouteStop(models.Model):
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     stop = models.ForeignKey(Stop, on_delete=models.CASCADE)
     order = models.PositiveIntegerField()
     status = models.CharField(max_length=1, choices=[('A', 'Active'), ('I', 'Inactive')], default='A')
+
+    class Meta:
+        unique_together = ['route', 'stop']
+        unique_together = ['route', 'order']
+    
     def __str__(self)->str:
-        return f'Stop {self.stop.name} of Route {self.route.name} at {self.station.name}'
+        return f'Stop {self.stop.name} of Route {self.route.name}'
