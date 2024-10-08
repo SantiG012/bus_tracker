@@ -13,8 +13,8 @@ class Route(models.Model):
 
 class Stop(models.Model):
     name = models.CharField(max_length=100)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
     status = models.CharField(max_length=1, choices=[('A', 'Active'), ('I', 'Inactive')], default='A')
 
     def __str__(self)->str:
