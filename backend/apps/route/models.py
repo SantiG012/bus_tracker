@@ -13,9 +13,17 @@ class Route(models.Model):
 
 class Stop(models.Model):
     name = models.CharField(max_length=100)
-    route = models.ForeignKey(Route, on_delete=models.CASCADE)
-    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
     status = models.CharField(max_length=1, choices=[('A', 'Active'), ('I', 'Inactive')], default='A')
 
     def __str__(self)->str:
         return f'Stop {self.name} of Route {self.route.name} at {self.station.name}'
+
+class RouteStop(models.Model):
+    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    stop = models.ForeignKey(Stop, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField()
+    status = models.CharField(max_length=1, choices=[('A', 'Active'), ('I', 'Inactive')], default='A')
+    def __str__(self)->str:
+        return f'Stop {self.stop.name} of Route {self.route.name} at {self.station.name}'
