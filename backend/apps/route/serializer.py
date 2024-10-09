@@ -12,6 +12,8 @@ class StopSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RouteStopSerializer(serializers.ModelSerializer):
+    route_name = serializers.SlugRelatedField(source='route', slug_field='name', read_only=True)
+    stop_name = serializers.SlugRelatedField(source='stop', slug_field='name', read_only=True)
     class Meta:
         model = RouteStop
         fields = '__all__'
