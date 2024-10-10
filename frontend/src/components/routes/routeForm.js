@@ -1,79 +1,65 @@
 import React, { useState, useEffect } from "react";
 import commonStyles from "src/common/common.module.css";
 
-const StopForm = ({ stopData, onSubmit }) => {
+const RouteForm = ({ routeData, onSubmit }) => {
     const emptyForm = {
         name: "",
-        latitude: "",
-        longitude: "",
+        description: "",
         status: "A"
     };
 
-    const [stop, setStop] = useState(emptyForm);
-    
+    const [route, setRoute] = useState(emptyForm);
+
     useEffect(() => {
-        if (stopData) {
-            setStop(stopData);
+        if (routeData) {
+            setRoute(routeData);
         }
-    }, [stopData]);
+    }, [routeData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setStop({
-            ...stop,
+        setRoute({
+            ...route,
             [name]: value
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(stop);
-        setStop(emptyForm);
-    };
+        onSubmit(route);
+        setRoute(emptyForm);
+    }
 
     return (
         <form onSubmit={handleSubmit}>
-            <p className="message">Create or edit a stop</p>
+            <p className="message">Create or edit a route</p>
             <div className={commonStyles.formGroup}>
                 <label>Name</label>
                 <input
                     type="text"
                     name="name"
-                    value={stop.name}
+                    value={route.name}
                     onChange={handleChange}
                     required
                 />
             </div>
 
             <div className={commonStyles.formGroup}>
-                <label>Latitude</label>
+                <label>Description</label>
                 <input
                     type="text"
-                    name="latitude"
-                    value={stop.latitude}
+                    name="description"
+                    value={route.description}
                     onChange={handleChange}
-                    pattern="^?[0-9]\d*(\.\d+)?$"
                     required
                 />
             </div>
 
             <div className={commonStyles.formGroup}>
-                <label>Longitude</label>
-                <input
-                    type="text"
-                    name="longitude"
-                    value={stop.longitude}
-                    onChange={handleChange}
-                    pattern="^?[0-9]\d*(\.\d+)?$"
-                    required
-                />
-            </div>
-
-            <div className={commonStyles.formGroup}> 
                 <label>Status</label>
                 <select
                     name="status"
-                    value={stop.status}
+                    value={route.status}
                     onChange={handleChange}
                 >
                     <option value="A">Active</option>
@@ -81,10 +67,10 @@ const StopForm = ({ stopData, onSubmit }) => {
                 </select>
             </div>
 
-            {stopData && <button type="submit" className={commonStyles.updateButton}>Update</button>}
-            {!stopData && <button type="submit" className={commonStyles.createteButton}>Create</button>}
+            {routeData && <button type="submit" className={commonStyles.updateButton}>Update</button>}
+            {!routeData && <button type="submit" className={commonStyles.createteButton}>Create</button>}
         </form>
     );
 }
 
-export default StopForm;
+export default RouteForm;

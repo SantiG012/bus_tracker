@@ -2,7 +2,7 @@ import{
     Routes, Route, BrowserRouter as Router
 } from 'react-router-dom';
 
-import { Home, BusesList, Map, StopsList} from '../pages';
+import { Home, BusesList, Map, StopsList, RoutesList} from '../pages';
 
 const Approutes = () => {
     return(
@@ -13,6 +13,7 @@ const Approutes = () => {
                     <Route path="/map" element={<Map />} />
                     <Route path="/buses" element={<BusesList />} />
                     <Route path="/stops" element={<StopsList />} />
+                    <Route path='/routes' element={<RoutesList />} />
                 </Routes>
             </Router>
         </div>
