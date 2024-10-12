@@ -4,13 +4,29 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 import MapView, {  Marker } from 'react-native-maps'
-import React, {useState} from 'react';
+import React, { useState, useEffect} from 'react';
 
-
+import { useFocusEffect } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
 export default function HomeScreen() {
 
   const [searchText, setSearchText] = useState('');
+  const [current, setLocation] = useState({latitude: 3.450541,longitude:-76.534630});
+  const [message, setMessage] = useState("");
+
+  useFocusEffect(()=>{
+    (async ()=>{
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if( status !== 'granted'){
+        setMessage('No se concedieron los permisos de ubicacion')
+        return;
+      }
+      let my_location = await Location.getCurrentPositionAsync();
+      let { latitude, longitude } = my_location.coords;
+      setLocation({latitude, longitude});
+    })();
+  })
 
   return (
     <ThemedView style={styles.container}>
@@ -24,7 +40,7 @@ export default function HomeScreen() {
             longitudeDelta: 0.0483
           }}
           >
-            <Marker coordinate={{latitude: 3.450541,longitude:-76.534630}}
+            <Marker coordinate={ current }
               title='Cali'
               description="Cali"
               pinColor='blue'/>
