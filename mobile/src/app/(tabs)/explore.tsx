@@ -7,6 +7,8 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+import ListBuses from '@/screens/Bus/List'
+
 export default function TabTwoScreen() {
   return (
     <ParallaxScrollView
@@ -17,7 +19,7 @@ export default function TabTwoScreen() {
       </ThemedView>
       <ThemedText>Listado de objetos desde la API.</ThemedText>
       <Collapsible title="Buses">
-
+        <ListBuses/>
       </Collapsible>
       <Collapsible title="Estaciones">
       </Collapsible>
