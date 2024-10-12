@@ -1,47 +1,71 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { View, StyleSheet, TextInput } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={<Ionicons size={210} name="bus" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Bievenido!</ThemedText>
-        <HelloWave />
-      </ThemedView>
+import MapView, {  Marker } from 'react-native-maps'
+import React, {useState} from 'react';
 
-      
-    </ParallaxScrollView>
+
+
+export default function HomeScreen() {
+
+  const [searchText, setSearchText] = useState('');
+
+  return (
+    <ThemedView style={styles.container}>
+      <View style={styles.mapContainer}>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 3.450541,
+            longitude:-76.534630,
+            latitudeDelta:0.922,
+            longitudeDelta: 0.0483
+          }}
+          >
+            <Marker coordinate={{latitude: 3.450541,longitude:-76.534630}}
+              title='Cali'
+              description="Cali"
+              pinColor='blue'/>
+          </MapView>
+      </View>
+      <ThemedView style={styles.footContainer}>
+        <ThemedText type='title'>Bienvenido!</ThemedText>
+        <TextInput style={styles.searchInput}
+          placeholder='Buscar estaciones o buses...'
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      </ThemedView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: 0,
-    left: -20,
-    position: 'absolute',
+  container:{
+    flex:1
   },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  mapContainer:{
+    flex:8
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  footContainer:{
+    flex:2,
+    padding: 12
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  map:{
+    ...StyleSheet.absoluteFillObject,
   },
+  searchInput:{
+    marginTop:12,
+    height:40,
+    borderColor:'#CCC',
+    borderWidth:2,
+    padding:13,
+    backgroundColor:'#FFF',
+    color:'#000',
+    borderRadius:3, 
+    width:'100%'
+  }
+
 });
