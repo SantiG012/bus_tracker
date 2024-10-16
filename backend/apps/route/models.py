@@ -27,8 +27,11 @@ class RouteStop(models.Model):
     status = models.CharField(max_length=1, choices=[('A', 'Active'), ('I', 'Inactive')], default='A')
 
     class Meta:
-        unique_together = ['route', 'stop']
-        unique_together = ['route', 'order']
+
+        unique_together = [
+            ('route', 'stop'),
+            ('route', 'order')
+        ]
     
     def __str__(self)->str:
         return f'Stop {self.stop.name} of Route {self.route.name}'
