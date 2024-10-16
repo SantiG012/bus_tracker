@@ -1,20 +1,40 @@
 import React, { useState, useEffect } from "react";
+import { fetchRoutes } from "src/api/routeApi";
+import { fetchStops } from "src/api/stopApi";
 import commonStyles from "src/common/common.module.css";
 
 const RouteStopsForm = ({ routeStopData, onSubmit }) => {
-    const emptyForm = {
+    const form = {
         order:"",
-        route_id:"",
-        stop_id:"",
+        route:"",
+        stop:"",
         status:"A"
     };
 
-    const [routeStop, setRouteStop] = useState(emptyForm);
+    const [routeStop, setRouteStop] = useState(form);
+    const [routes, setRoutes] = useState([]);
+    const [stops, setStops] = useState([]);
+
 
     useEffect(() => {
         if (routeStopData) {
             setRouteStop(routeStopData);
         }
+
+        const getRoutes = async () => {
+            const data = await fetchRoutes();
+            setRoutes(data);
+        };
+
+        getRoutes();
+
+        const getStops = async () => {
+            const data = await fetchStops();
+            setStops(data);
+        };
+
+        getStops();
+
     }, [routeStopData]);
 
     const handleChange = (e) => {
@@ -28,7 +48,7 @@ const RouteStopsForm = ({ routeStopData, onSubmit }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(routeStop);
-        setRouteStop(emptyForm);
+        setRouteStop(form);
     };
 
     return (
@@ -47,24 +67,36 @@ const RouteStopsForm = ({ routeStopData, onSubmit }) => {
 
             <div className={commonStyles.formGroup}>
                 <label>Route ID</label>
-                <input
-                    type="text"
-                    name="route_id"
-                    value={routeStop.route_id}
-                    onChange={handleChange}
+                <select 
                     required
-                />
+                    name="route"
+                    value={routeStop.route}
+                    onChange={handleChange}
+                >
+                    <option value=""></option>
+                    {routes.map((route) => (
+                        <option key={route.id} value={route.id}>
+                            {route.name}
+                        </option>
+                    ))}
+                </select>
             </div>
 
             <div className={commonStyles.formGroup}>
                 <label>Stop ID</label>
-                <input
-                    type="text"
-                    name="stop_id"
-                    value={routeStop.stop_id}
-                    onChange={handleChange}
+                <select 
                     required
-                />
+                    name="stop"
+                    value={routeStop.stop}
+                    onChange={handleChange}
+                >
+                    <option value=""></option>
+                    {stops.map((stop) => (
+                        <option key={stop.id} value={stop.id}>
+                            {stop.name}
+                        </option>
+                    ))}
+                </select>
             </div>
 
             <div className={commonStyles.formGroup}>
@@ -80,7 +112,7 @@ const RouteStopsForm = ({ routeStopData, onSubmit }) => {
             </div>
 
             {routeStopData && <button type="submit" className={commonStyles.updateButton}>Update</button>}
-            {!routeStopData && <button type="submit" className={commonStyles.createteButton}>Create</button>}
+            {!routeStopData && <button type="submit" className={commonStyles.createButton}>Create</button>}
         </form>
     );
 

@@ -1,6 +1,6 @@
 import ApiService from "./apiService";
 
-const routeStopsService = new ApiService("routes/route-stops/");
+const routeStopsService = new ApiService("routes/route-stops");
 
 export const fetchRouteStops = () => routeStopsService.fetchAll();
 export const fetchRouteStop = (id) => routeStopsService.fetchOne(id);
