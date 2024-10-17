@@ -18,7 +18,6 @@ const RoutesStopsListPage = () => {
     }, []);
 
     const createOrUpdate = async (routeStop) => {
-        console.log(routeStop);
         if (isEditing) {
             await updateRouteStop(selected.id, routeStop);
             setSelected(null);
