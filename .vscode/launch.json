@@ -1,0 +1,21 @@
+{
+  "configurations": [{
+    "name": "Run backend",
+    "type": "python",
+    "python": "${workspaceFolder}/backend/env/bin/python",
+    "request": "launch",
+    "program": "${workspaceFolder}/backend/manage.py",
+    "console": "integratedTerminal",
+    "args":[
+      "runserver",
+      "0.0.0.0:8000"
+    ],
+    "env":{
+      "DEBUG":"False",
+      "SECRECT_KEY":"C3i1jjD¡@wdsd9282+3938",
+      "SITE_NAME":"Bus_Tracker",
+      "DOMAIN":"bustracker.co",
+      "STATIC_URL":"api.bustracker.co"
+    }
+  }]
+}
