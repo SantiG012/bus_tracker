@@ -8,11 +8,17 @@ from django.shortcuts import get_object_or_404
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
+from rest_framework.permissions import IsAdminUser, AllowAny
+from apps.bus.permissions import isAdminOrReadOnly
+
 class ListCreateBuses(generics.ListAPIView):
   queryset = Bus.objects.all()
   serializer_class = BusSerializer
   
   def post(self, request, *args, **kwargs):
+    # validacion de usuarios admin
+    if not(isAdminOrReadOnly(request)):
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
     data= request.data
     serr = BusSerializer(data=data)
     if (serr.is_valid()):
@@ -20,18 +26,20 @@ class ListCreateBuses(generics.ListAPIView):
       return Response(serr.validated_data, status=status.HTTP_200_OK)  
     
     return Response(status=status.HTTP_400_BAD_REQUEST)
-    
-    
-# Retrieve, Update, and Delete bus by ID
+
 class RetrieveUpdateDeleteBus(generics.RetrieveUpdateDestroyAPIView):
     queryset = Bus.objects.all()
     serializer_class = BusSerializer
     lookup_field = 'id'
+    permissions_classes = (IsAdminUser, )
 
     def get_object(self):
         return get_object_or_404(Bus, id=self.kwargs['id'])
 
     def update(self, request, *args, **kwargs):
+        # validacion de usuarios admin
+        if not(isAdminOrReadOnly(request)):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         bus = self.get_object()
         serializer = BusSerializer(bus, data=request.data, partial=True)  # partial allows partial updates
         if serializer.is_valid():
@@ -40,6 +48,9 @@ class RetrieveUpdateDeleteBus(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
+        # validacion de usuarios admin
+        if not(isAdminOrReadOnly(request)):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         bus = self.get_object()
         bus.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -48,13 +59,13 @@ class UpdateBusLocation(generics.RetrieveUpdateAPIView):
     queryset = Bus.objects.all()
     serializer_class = LocationSerializer
     lookup_field = 'id'
+    permissions_classes = (AllowAny, )
     
     def get(self, request, *args, **kwargs):
         a_bus = self.get_object()
         llocation = Location.objects.filter(bus=a_bus).all()
         return Response(LocationSerializer(llocation, many=True).data, status=status.HTTP_200_OK)
   
-    
     def patch(self, request, *args, **kwargs):
         a_bus = self.get_object()
         a_location = request.data.get('location')

@@ -13,8 +13,10 @@ ENV PYTHONUNBUFFERED 1
 # Update pip 
 RUN pip install pip
 # Install c & c++
-RUN apt-get update \
-  && apt-get -y install libpq-dev gcc
+RUN apt-get update 
+
+RUN apt-get -y install libpq-dev gcc
+
 # Install requirements
 RUN pip install -r requirements/prod.txt
 # Open port
