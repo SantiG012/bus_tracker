@@ -24,6 +24,7 @@ jobs:
       - name: Install backend deps
         working-directory: ./backend
         run:  |
+          apt-get install python3-dev
           python -m pip install --upgrade pip
           pip install -r requirements/integration.txt
           python manage.py makemigrations
