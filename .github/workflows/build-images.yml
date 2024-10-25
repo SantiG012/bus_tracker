@@ -45,18 +45,18 @@ jobs:
         working-directory: ./backend
         run: |
           docker build . -t bs_tracker-bs_backend
-      - uses: actions/checkout@v1
-      - name: Docker login
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
-      - uses: actions/checkout@v1
+      - name: Login to Docker Hub  
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
       - name: push image version to hub
-        run:
-          docker push ${{ secrets.DOCKER_USER }}/bs_backend:${{ github.sha }}
-      - uses: actions/checkout@v1
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}//bs_tracker-bs_backend:${{ github.sha }}
       - name: Docker TAG latest images
-        run:
-            docker tag docker.io/bs_backend ${{ secrets.DOCKER_USER }}/bs_backend:latest
-      - uses: actions/checkout@v1
-      - name: push image to hub
-        run:
-            docker push ${{ secrets.DOCKER_USER }}/bs_backend:latest
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}//bs_tracker-bs_backend:latest
