@@ -23,17 +23,18 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install backend deps
         working-directory: ./backend
-        run:
+        run:  |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          # pip install -e .   # configure properly your unit testing 
+          pip install -r requirements/common.txt
+          python manage.py makemigrations
+          python manage.py migrate
+          python manage.py migrate --run-syncdb
       
       - name: Run backend tests
         working-directory: ./backend
         run:
           python -m pytest
 
-          
   ## Continuous delivery
   cd-backend:
     runs-on: ubuntu-latest
@@ -41,4 +42,4 @@ jobs:
     steps:
       - name: Docker build and tag image
         working-directory: ./backend
-        run: docker build -t btracker_backend .
+        run: docker build -t bs_tracker-bs_backend .
