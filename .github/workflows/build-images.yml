@@ -54,9 +54,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USER }}//bs_tracker-bs_backend:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USER }}/bs_tracker-bs_backend:${{ github.sha }}
       - name: Docker TAG latest images
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USER }}//bs_tracker-bs_backend:latest
+          tags: ${{ secrets.DOCKER_USER }}/bs_tracker-bs_backend:latest
