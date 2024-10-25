@@ -21,11 +21,11 @@ const BusPage = () =>{
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(()=>{
-  const getBuses = async () =>{
-    const data = await fetchBuses();
-    setBuses(data.sort((a,b)=> a.id > b.id? 1 : -1 ));
-  };
-  getBuses();
+    const getBuses = async () =>{
+      const data = await fetchBuses();
+      setBuses(data.sort((a,b)=> a.id > b.id? 1 : -1 ));
+    };
+    getBuses();
   }, []);
 
   const createOrUpdate = async (a_bus) =>{

@@ -16,6 +16,13 @@
   border-radius: 3pt;
   width: 365px;
 }
+.busForm select{
+  padding: 5px;
+  border-radius: 2pt;
+  padding: 10px 15px;
+  border-radius: 3pt;
+  width: 400px;
+}
 
 .busFormGroup {
   padding: 2px 0px;

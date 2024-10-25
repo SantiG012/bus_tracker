@@ -5,6 +5,7 @@ import { Header } from '../../layouts/header';
 import { Footer } from '../../layouts/footer';
 
 import { fetchRoutes, createRoute, updateRoute, deleteRoute } from "../../api/routesApi";
+import { fetchStations } from "../../api/stationApi";
 
 import RoutesCard from "../../components/routes/routesCard";
 import RoutesForm from "../../components/routes/routesForm";
@@ -15,6 +16,7 @@ const RoutesPage = () =>{
     description:""
   }
   const [routes, setRoutes] = useState([]);
+  const [stations, setStations] = useState([]);
   const [selected, setRoute] = useState(empty);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -22,6 +24,8 @@ const RoutesPage = () =>{
     const getRoutes = async () =>{
       const data = await fetchRoutes();
       setRoutes(data.sort((a,b)=> a.id > b.id? 1 : -1 ));
+      const sdata = await fetchStations();
+      setStations(sdata.sort((a,b)=> a.id > b.id? 1 : -1 ));
     };
     getRoutes();
   }, []);
@@ -59,7 +63,7 @@ const RoutesPage = () =>{
           <h2>Gestión de rutas</h2>
           <div className="routesListContainer"> {/* Formulario */} 
             <div className="routesListChild">
-              <RoutesForm busData={selected} onSubmit={createOrUpdate} />
+              <RoutesForm routeData={selected} stationData={stations} onSubmit={createOrUpdate} />
             </div> {/* lista de buses */} 
             <div className="routesListChild" style={{overflow:"scroll", height:"80vh"}}> 
               {routes.map((a_route)=>(
