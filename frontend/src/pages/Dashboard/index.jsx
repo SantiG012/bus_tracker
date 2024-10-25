@@ -25,6 +25,9 @@ const Dashboard = () => {
   const position = [3.43722, -76.5225];
 
   const [stations, setStations] = useState([]);
+  const [routes, setRoutes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredRoutes, setFilteredRoutes] = useState([]);
 
   useEffect(()=>{
     const getStations = async () =>{
@@ -36,18 +39,38 @@ const Dashboard = () => {
 
   // const positions = stations.map((station) => [station.latitude, station.longitude]);
 
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // Filtrar las rutas en función del texto de búsqueda
+    const filtered = routes.filter(route =>
+      route.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredRoutes(filtered);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log("Buscando:", searchTerm);
+  };
+
   return (
     <div className="dashboard-container">
       <Header/>
       <main className="dashboard-main">
         <section id="routes" className="dashboard-section">
           <h2>Busca rutas</h2>
-          {/* You can insert a route search component or table */}
-          <div className="route-search">
-            <input type="text" placeholder="Search for a route..." />
-            <button>Search</button>
+          <form className="route-search" onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              placeholder="T31, E31 ..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            <button type="submit">Search</button>
             {!isAuthenticated() && <a href='/login'>Acceder</a>}
-          </div>
+          </form>
         <p>{position}</p>
           <MapContainer
             center={position}
@@ -65,7 +88,6 @@ const Dashboard = () => {
                 </Popup>
               </Marker>
             ))}
-          {/* Dibuja una línea entre las estaciones */}
           {/* {positions.length > 1 && <Polyline positions={positions} color="blue" />} */}
           </MapContainer>
         </section>

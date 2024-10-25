@@ -52,7 +52,6 @@ const LoginScreen = () => {
           {error && <p className="error-message">{error}</p>}
         </section>
       </main>
-
       <Footer/>
     </div>
   );
