@@ -40,6 +40,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: ci-backend
     steps:
-
       - name: Docker build and tag image
-        run: docker build -t bs_tracker-bs_backend ./backend
+        run: docker build . -t bs_tracker-bs_backend -f ./backend
+      - uses: actions/checkout@v1
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+      - name: push image version to hub
+        run:
+          docker push ${{ secrets.DOCKER_USER }}/bs_backend:${{ github.sha }}
+      - name: Docker TAG latest images
+        run:
+            docker tag docker.io/bs_backend ${{ secrets.DOCKER_USER }}/bs_backend:latest
+      - name: push image to hub
+        run:
+            docker push ${{ secrets.DOCKER_USER }}/bs_backend:latest
