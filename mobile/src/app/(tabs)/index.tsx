@@ -30,7 +30,8 @@ export default function HomeScreen() {
       let { latitude, longitude } = my_location.coords;
       setLocation({latitude, longitude});      
     })();
-  })
+  });
+
 
   return (
     <ThemedView style={styles.container}>
