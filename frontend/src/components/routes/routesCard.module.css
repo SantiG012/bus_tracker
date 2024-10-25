@@ -1,6 +1,6 @@
 
 
-.busCard{
+.stationCard{
   cursor: pointer;
   background-color: #eee;
   padding: 1rem;
@@ -9,7 +9,7 @@
   margin-bottom: 1rem;
 }
 
-.busCard h3 {
+.stationCard h3 {
   padding: 12px 20px;
   background-color: #c08907; 
   border: 3px solid black;
@@ -18,16 +18,16 @@
   text-align: center;
 }
 
-.busCard:hover{
+.stationCard:hover{
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.busCardButtons{
+.stationCardButtons{
   display: flex;
   justify-content: space-between;
 }
 
-.busCardButtons button{
+.stationCardButtons button{
   background-color: #ccc;
   border: none;
   cursor: pointer;

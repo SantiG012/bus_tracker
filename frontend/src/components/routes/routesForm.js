@@ -1,13 +1,12 @@
 import React, { useState , useEffect } from "react";
-import styles from "./busForm.module.css"
+import styles from "./routesForm.module.css"
 
-const BusForm = ({ busData, onSubmit }) =>{
+const RoutesForm = ({ busData, onSubmit }) =>{
   const [bus, setBus] = useState(busData);
   useEffect(()=>{
     if(busData){
       setBus(busData);
     }
-    console.log("busData ", busData)
   }, [busData]);
 
   const handleChange = (e) =>{
@@ -29,23 +28,13 @@ const BusForm = ({ busData, onSubmit }) =>{
       <div className={styles.busFormBody}>
 
         <div className={styles.busFormGroup}>
-          <label>Plate</label>
-          <input type="text" name="plate" value={bus.plate} onChange={handleChange} required />
+          <label>Name</label>
+          <input type="text" name="name" value={bus.name} onChange={handleChange} required />
         </div>
 
         <div className={styles.busFormGroup}>
-          <label>Status</label>
-          <input type="text" name="status" value={bus.status} onChange={handleChange} required />
-        </div>
-
-        <div className={styles.busFormGroup}>
-          <label>Latitudine</label>
-          <input type="number" step="any" name="current_latitudine" value={bus.current_latitude} readOnly />
-        </div>
-
-        <div className={styles.busFormGroup}>
-          <label>Longitudine</label>
-          <input type="number" step="any" name="current_longitudine" value={bus.current_longitude} readOnly />
+          <label>Description</label>
+          <textarea rows="7" cols="47" type="text" name="description" value={bus.description} onChange={handleChange} required />
         </div>
         
         <div className={styles.busFormGroup}>
@@ -59,4 +48,4 @@ const BusForm = ({ busData, onSubmit }) =>{
 
 }
 
-export default BusForm;
+export default RoutesForm;

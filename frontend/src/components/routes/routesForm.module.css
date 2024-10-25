@@ -9,7 +9,7 @@
   flex-direction: row;
 }
 
-.busForm input{
+.busForm input, .busForm textarea{
   padding: 5px;
   border-radius: 2pt;
   padding: 10px 15px;

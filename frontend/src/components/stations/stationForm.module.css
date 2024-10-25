@@ -1,15 +1,15 @@
 
 
-.busForm{
+.stationForm{
   padding: 12px;
 }
 
-.busForm label {
+.stationForm label {
   display: flex;
   flex-direction: row;
 }
 
-.busForm input{
+.stationForm input{
   padding: 5px;
   border-radius: 2pt;
   padding: 10px 15px;
@@ -17,11 +17,11 @@
   width: 365px;
 }
 
-.busFormGroup {
+.stationFormGroup {
   padding: 2px 0px;
 }
 
-.busForm button{
+.stationForm button{
   background-color: #11652d;
   border: none;
   cursor: pointer;

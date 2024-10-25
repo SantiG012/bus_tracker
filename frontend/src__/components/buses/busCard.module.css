@@ -1,12 +1,14 @@
 
 
 .busCard{
-  cursor: pointer;
-  background-color: #eee;
+  cursor: move;
+  background-color: #fff;
   padding: 1rem;
   border-radius: 3pt;
   box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
   margin-bottom: 1rem;
+  border: 3px dashed transparent;
+  width: 350px;
 }
 
 .busCard h3 {
@@ -31,6 +33,6 @@
   background-color: #ccc;
   border: none;
   cursor: pointer;
-  padding: 10px 10px;
-  border-radius: 2pt;
+  padding: 12px 20px;
+  border-radius: 3pt;
 }

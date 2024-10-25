@@ -25,7 +25,7 @@ const BusForm = ({ busData, onSubmit }) =>{
 
   return (
     <form onSubmit={handleSubmit} className={styles.busForm}>
-
+      <p className={styles.busFormTitle}>Create or edit a bus</p>
       <div className={styles.busFormBody}>
 
         <div className={styles.busFormGroup}>
@@ -40,12 +40,12 @@ const BusForm = ({ busData, onSubmit }) =>{
 
         <div className={styles.busFormGroup}>
           <label>Latitudine</label>
-          <input type="number" step="any" name="current_latitudine" value={bus.current_latitude} readOnly />
+          <input type="number" step="any" name="current_latitudine" value={bus.current_latitudine} readOnly />
         </div>
 
         <div className={styles.busFormGroup}>
           <label>Longitudine</label>
-          <input type="number" step="any" name="current_longitudine" value={bus.current_longitude} readOnly />
+          <input type="number" step="any" name="current_longitudine" value={bus.current_longitudine} readOnly />
         </div>
         
         <div className={styles.busFormGroup}>

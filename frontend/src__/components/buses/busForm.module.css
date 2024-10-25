@@ -11,10 +11,8 @@
 
 .busForm input{
   padding: 5px;
-  border-radius: 2pt;
-  padding: 10px 15px;
   border-radius: 3pt;
-  width: 365px;
+  width: 400px;
 }
 
 .busFormGroup {
@@ -25,7 +23,7 @@
   background-color: #11652d;
   border: none;
   cursor: pointer;
-  padding: 10px 0px;
+  padding: 12px 30px;
   border-radius: 3pt;
   width: 400px;
   color: aliceblue;
