@@ -41,9 +41,9 @@ jobs:
     needs: ci-backend
     steps:
       - name: Docker build and tag image
+        working-directory: ./backend
         run: |
-          ls
-          docker build . -f backend/Dockerfile -t bs_tracker-bs_backend
+          docker build . -t bs_tracker-bs_backend
       - uses: actions/checkout@v1
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
