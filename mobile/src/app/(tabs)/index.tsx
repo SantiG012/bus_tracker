@@ -36,8 +36,8 @@ export default function HomeScreen() {
           initialRegion={{
             latitude: 3.450541,
             longitude:-76.534630,
-            latitudeDelta:0.922,
-            longitudeDelta: 0.0483
+            latitudeDelta:0.04,
+            longitudeDelta: 0.07
           }}
           >
             <Marker coordinate={ current }

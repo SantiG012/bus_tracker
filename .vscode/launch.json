@@ -15,12 +15,7 @@
       "SECRECT_KEY":"C3i1jjD¡@wdsd9282+3938",
       "SITE_NAME":"Bus_Tracker",
       "DOMAIN":"bustracker.co",
-      "STATIC_URL":"api.bustracker.co",
-      "POSTGRES_DB":"postgres",
-      "POSTGRES_USER":"postgres",
-      "POSTGRES_PASSWORD":"U282DholaMundo123",
-      "POSTGRES_HOST":"0.0.0.0",
-      "POSTGRES_PORT":"5432"
+      "STATIC_URL":"api.bustracker.co"
     }
   }]
 }
