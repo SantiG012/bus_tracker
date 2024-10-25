@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Docker build and tag image
         run:
-          docker build  -t bs_tracker-bs_backend -f backend/Dockerfile
+          docker build . -t bs_tracker-bs_backend -f bus_tracker/backend/Dockerfile
       - uses: actions/checkout@v1
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
