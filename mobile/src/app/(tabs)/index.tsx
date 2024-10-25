@@ -3,17 +3,21 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-import MapView, {  Marker } from 'react-native-maps'
+// import MapView, {  Marker } from 'react-native-maps'
 import React, { useState, useEffect} from 'react';
 
 import { useFocusEffect } from '@react-navigation/native';
 import * as Location from 'expo-location';
 
+import { apiStations } from  '@/api/stations'
+
 export default function HomeScreen() {
 
+  const { getStations } = apiStations()
   const [searchText, setSearchText] = useState('');
   const [current, setLocation] = useState({latitude: 3.450541,longitude:-76.534630});
   const [message, setMessage] = useState("");
+  const [stations, setStations] = useState([]);
 
   useFocusEffect(()=>{
     (async ()=>{
@@ -24,14 +28,14 @@ export default function HomeScreen() {
       }
       let my_location = await Location.getCurrentPositionAsync();
       let { latitude, longitude } = my_location.coords;
-      setLocation({latitude, longitude});
+      setLocation({latitude, longitude});      
     })();
   })
 
   return (
     <ThemedView style={styles.container}>
       <View style={styles.mapContainer}>
-        <MapView
+        {/* <MapView
           style={styles.map}
           initialRegion={{
             latitude: 3.450541,
@@ -41,10 +45,19 @@ export default function HomeScreen() {
           }}
           >
             <Marker coordinate={ current }
-              title='Cali'
-              description="Cali"
-              pinColor='blue'/>
-          </MapView>
+              title='Aquí esta usted'
+              description="Aquí esta usted"
+              pinColor='orange'/>
+              {stations.map((a_station)=>{
+                const {latitude, longitude} = a_station;
+                console.log(">>>>> ", a_station)
+                return (
+                  <Marker coordinate={current}
+                  title="{a_station.name}"
+                  description="{a_station.description}"
+                  pinColor='black'/>)
+              })}
+          </MapView> */}
       </View>
       <ThemedView style={styles.footContainer}>
         <ThemedText type='title'>Bienvenido!</ThemedText>
