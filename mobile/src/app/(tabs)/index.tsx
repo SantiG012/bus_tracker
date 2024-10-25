@@ -3,7 +3,7 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-// import MapView, {  Marker } from 'react-native-maps'
+import MapView, {  Marker } from 'react-native-maps'
 import React, { useState, useEffect} from 'react';
 
 import { useFocusEffect } from '@react-navigation/native';
@@ -35,7 +35,7 @@ export default function HomeScreen() {
   return (
     <ThemedView style={styles.container}>
       <View style={styles.mapContainer}>
-        {/* <MapView
+        <MapView
           style={styles.map}
           initialRegion={{
             latitude: 3.450541,
@@ -57,7 +57,7 @@ export default function HomeScreen() {
                   description="{a_station.description}"
                   pinColor='black'/>)
               })}
-          </MapView> */}
+          </MapView>
       </View>
       <ThemedView style={styles.footContainer}>
         <ThemedText type='title'>Bienvenido!</ThemedText>
